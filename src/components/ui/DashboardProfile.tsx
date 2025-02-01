@@ -8,17 +8,13 @@ const DashbaordProfile= () => {
       key: '1',
       label: 'Profile',
       icon: <UserOutlined />,
-      onClick: () => {
-        console.log('Profile clicked');
-      },
+      
     },
     {
       key: '2',
       label: 'Settings',
       icon: <SettingOutlined />,
-      onClick: () => {
-        console.log('Settings clicked');
-      },
+     
     },
     {
       key: '3',

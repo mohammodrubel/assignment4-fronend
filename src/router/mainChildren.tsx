@@ -1,5 +1,6 @@
 import Cart from "../pages/Cart";
 import Home from "../pages/Home";
+import ProductDetails from "../pages/ProductDetails";
 import WishList from "../pages/WishList";
 
 const mainChildren = [
@@ -10,6 +11,10 @@ const mainChildren = [
   {
     path: "/cart",
     element: <Cart />,
+  },
+  {
+    path: "/:id",
+    element: <ProductDetails />,
   },
   {
     path: "/wishlist",

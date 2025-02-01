@@ -13,7 +13,6 @@ const authApi = baseApi.injectEndpoints({
     }),
     getAllProduct: builder.query({
       query: (args) => {
-        console.log(args)
         const params = new URLSearchParams();
         if (args) {
           args.forEach((item: TQueryParams) => {
@@ -28,7 +27,6 @@ const authApi = baseApi.injectEndpoints({
         };
       },
       transformResponse: (Response: TResponseRedux<product[]>) => {
-        console.log(Response)
         return {
           data: Response.data,
           meta: Response.meta

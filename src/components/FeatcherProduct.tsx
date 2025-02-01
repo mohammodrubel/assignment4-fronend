@@ -1,18 +1,18 @@
 import { Alert, Button, Card, Input, Pagination, Spin } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 import { useGetAllProductQuery } from '../app/fetchers/product/productApi';
 import { addToCart } from '../app/fetchers/product/productSlice';
 import { useAppDispatch, useAppSelector } from '../app/hook';
 import { product, Tmeta } from '../types/globalTypes';
 import Container from './ui/Container';
-import { userCurrentInformation } from '../app/fetchers/auth/authSlice';
-import { toast } from 'sonner';
 
 export type TableDataType = Pick<product, "_id" | "name" | "image" | "brand" | "category" | "inStock" | "quantity">
 
 const FeatcherProduct = () => {
-    const user = useAppSelector(userCurrentInformation)
+    const user = useAppSelector((state) => state?.auth?.user)
     const [params, setParams] = useState([])
     const [search, setSearchTerm] = useState('')
     const [limit, _setLimit] = useState(6)
@@ -27,11 +27,8 @@ const FeatcherProduct = () => {
         ]
     );
 
-
-
     const total: Tmeta = data?.meta!
 
-    console.log(data?.data)
 
     if (isLoading) return <Spin />;
     if (isError) return <Alert message="Error loading products" type="error" />;
@@ -41,10 +38,10 @@ const FeatcherProduct = () => {
     };
     const addToCartProduct = (data: product) => {
         if (!user) {
-            toast.error('You must be logged in to add a product.');
+            return toast.error('Please log in to add products to your cart.');
         }
-        dispatch(addToCart(data))
-    }
+        dispatch(addToCart(data));
+    };
 
     return (
         <>
@@ -54,22 +51,25 @@ const FeatcherProduct = () => {
             </div>
 
             <Container>
-                <div className='grid grid-cols-1 sm:grid-cols-2 mx-auto md:grid-cols-3 justify-center item-center'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 mx-auto md:grid-cols-3 xl:grid-cols-4 justify-center item-center'>
                     {
                         data?.data?.map((item) => <div className='my-5 mx-auto'>
                             <Card
-                                style={{ width: 310 }}
+                                style={{ width: '310px' }}
                                 cover={
-                                    <img
-                                        alt="image"
-                                        src={item.image}
-                                    />
+                                    <Link to={`/${item?._id}`}>
+                                        <img
+                                            alt="example"
+                                            src={item.image}
+                                            className="object-fill h-[250px]"
+                                        />
+                                    </Link>
                                 }
                             >
-                                <Meta
+                                <Link to={`/${item?._id}`}><Meta
                                     title={item?.name}
                                     description={item?.description}
-                                />
+                                /></Link>
                                 <b>Stock:{item?.quantity === 0 ? <span className='text-red-500'>out of stock</span> : <span className='text-green-500 mx-2'>{item?.quantity}</span>}</b>
                                 <div className='flex my-5 justify-between item-center'>
                                     <Button onClick={() => addToCartProduct(item)} disabled={item?.quantity === 0} type='primary'><i className="fa-solid fa-cart-shopping"></i> Add To Cart</Button>

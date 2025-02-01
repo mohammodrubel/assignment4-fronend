@@ -1,13 +1,17 @@
 import { Button, Card } from "antd";
 import Meta from "antd/es/card/Meta";
 import SlickSlider from "react-slick";
-import acc1 from '../assets/acc1.jpg'
-import acc2 from '../assets/acc2.jpg'
-import acc3 from '../assets/acc3.jpg'
-import acc4 from '../assets/acc4.jpg'
 import "slick-carousel/slick/slick.css";
+import { toast } from "sonner";
+import { useGetAllProductQuery } from "../app/fetchers/product/productApi";
+import { addToCart } from "../app/fetchers/product/productSlice";
+import { useAppDispatch, useAppSelector } from "../app/hook";
+import { product } from "../types/globalTypes";
 
 const CustomSlider = () => {
+    const user = useAppSelector((state) => state?.auth?.user)
+    const dispatch = useAppDispatch()
+    const { data } = useGetAllProductQuery(undefined)
     const settings = {
         dots: true,
         infinite: true,
@@ -46,80 +50,38 @@ const CustomSlider = () => {
             },
         ],
     };
-
+    const sliderData = data?.data
+    const addToCartProduct = (data: product) => {
+        if (!user) {
+            return toast.error('Please log in to add products to your cart.');
+        }
+        dispatch(addToCart(data));
+    };
     return (
         <SlickSlider {...settings}>
-            <div className="px-4"> {/* Add padding for spacing */}
-                <Card
-                    className="bg-custom"
-                    cover={
-                        <img
-                            alt="example"
-                            src={acc1}
+            {
+                sliderData?.map((item, index) => <div key={index} className="px-4 flex justify-center items-center"> {/* Add padding for spacing */}
+                    <Card
+                        className="bg-transparent! "
+                        cover={
+                            <img
+                                alt="example"
+                                src={item.image}
+                                className="object-fill h-[250px]"
+                            />
+                        }
+                    >
+                        <Meta
+                            title={<div className="text-white">{item.name}</div>}
                         />
-                    }
-                >
-                    <Meta
-                        title={<div className="text-white">Card title</div>}
-                        description={<div className="text-white">This is the description</div>}
-                    />
-                    <Button className="mt-4" type="primary">Add To Cart</Button>
-                </Card>
-            </div>
-
-            <div className="px-4"> {/* Add padding for spacing */}
-                <Card
-                    className="bg-custom"
-                    cover={
-                        <img
-                            alt="example"
-                            src={acc2}
-                        />
-                    }
-                >
-                    <Meta
-                        title={<div className="text-white">Card title</div>}
-                        description={<div className="text-white">This is the description</div>}
-                    />
-                    <Button className="mt-4" type="primary">Add To Cart</Button>
-                </Card>
-            </div>
-
-            <div className="px-4"> {/* Add padding for spacing */}
-                <Card
-                    className="bg-custom"
-                    cover={
-                        <img
-                            alt="example"
-                            src={acc3}
-                        />
-                    }
-                >
-                    <Meta
-                        title={<div className="text-white">Card title</div>}
-                        description={<div className="text-white">This is the description</div>}
-                    />
-                    <Button className="mt-4" type="primary">Add To Cart</Button>
-                </Card>
-            </div>
-
-            <div className="px-4"> {/* Add padding for spacing */}
-                <Card
-                    className="bg-custom"
-                    cover={
-                        <img
-                            alt="example"
-                            src={acc4}
-                        />
-                    }
-                >
-                    <Meta
-                        title={<div className="text-white">Card title</div>}
-                        description={<div className="text-white">This is the description</div>}
-                    />
-                    <Button className="mt-4" type="primary">Add To Cart</Button>
-                </Card>
-            </div>
+                        <div className="flex justify-between items-center">
+                            <div className="text-white"><b>Stock:{item?.quantity === 0 ? <span className='text-red-500'>out of stock</span> : <span className='text-green-500 mx-2'>{item?.quantity}</span>}</b></div>
+                            <div className="text-white">Price:{item.price}</div>
+                        </div>
+                        <Button onClick={() => addToCartProduct(item)} disabled={item?.quantity === 0} type='primary'><i className="fa-solid fa-cart-shopping"></i> Add To Cart</Button>
+                    </Card>
+                </div>)
+            }
         </SlickSlider>
     );
 };

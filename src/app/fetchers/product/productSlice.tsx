@@ -13,13 +13,15 @@ export const ProductSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
+
         addToCart: (state, action) => {
             const existingProduct = state.cartItem.find(
-                (item: product) => item._id === action.payload._id
+                (item) => item._id === action.payload._id
             );
-
             if (existingProduct) {
-                if (action.payload.inStock === false || existingProduct.orderQuantity >= action.payload.quantity) {
+                if (existingProduct.quantity === 0) {
+                    toast.error("Sorry, the item is out of stock.");
+                } else if (existingProduct.quantity <= existingProduct.orderQuantity) {
                     toast.error("Sorry, the item is out of stock.");
                 } else {
                     existingProduct.orderQuantity += 1;
@@ -27,7 +29,7 @@ export const ProductSlice = createSlice({
                     toast.success("Added to cart");
                 }
             } else {
-                if (action.payload.inStock === false || action.payload.quantity === 0) {
+                if (action.payload.quantity === 0) {
                     toast.error("Sorry, the item is out of stock.");
                 } else {
                     const newProduct = { ...action.payload, orderQuantity: 1 };
@@ -37,8 +39,40 @@ export const ProductSlice = createSlice({
                 }
             }
         },
+
+        incrementQuantity: (state, action) => {
+            const existingProduct = state.cartItem.find(item => item._id === action.payload);
+            if (existingProduct) {
+                existingProduct.orderQuantity += 1; 
+                toast.success("Increased quantity");
+                localStorage.setItem("cartItem", JSON.stringify(state.cartItem));
+            }
+        },
+        decrementQuantity: (state, action) => {
+            const existingProduct = state.cartItem.find(item => item._id === action.payload);
+            if (existingProduct) {
+                if (existingProduct.orderQuantity > 1) {
+                    existingProduct.orderQuantity -= 1;
+                    toast.warning("Decrementing quantity");
+                } else {
+                    state.cartItem = state.cartItem.filter(item => item._id !== action.payload);
+                    toast.error("Removed from cart");
+                }
+                localStorage.setItem("cartItem", JSON.stringify(state.cartItem));
+            }
+        },
+
+        removeProduct:(state,action)=>{
+            const existingProduct = state.cartItem.find((item)=> item._id === action.payload)
+            if(existingProduct){
+                state.cartItem = state.cartItem.filter(item => item._id !== action.payload); 
+                localStorage.setItem("cartItem", JSON.stringify(state.cartItem));
+                toast.warning(`${existingProduct.name} has been removed from your cart`);
+            }
+        }
+
     },
 });
 
-export const { addToCart } = ProductSlice.actions;
+export const { addToCart ,removeProduct,incrementQuantity,decrementQuantity} = ProductSlice.actions;
 export default ProductSlice.reducer;
