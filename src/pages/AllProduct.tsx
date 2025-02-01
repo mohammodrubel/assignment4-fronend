@@ -4,7 +4,6 @@ import { useGetAllProductQuery } from '../app/fetchers/product/productApi';
 import { product, Tmeta } from '../types/globalTypes';
 
 export type TableDataType = Pick<product, "_id" | "name" | "image" | "brand" | "category" | "inStock" | "quantity">
-type OptionsType={text:string,value:string}
 const AllProduct = () => {
   const [params, setParams] = useState([])
   const [search, setSearchTerm] = useState('')

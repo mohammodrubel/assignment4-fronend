@@ -73,7 +73,7 @@ const Cart = () => {
         {
             title: "Delete",
             key: "delete",
-            render: (info: number, record: product) => (
+            render: (_info: number, record: product) => (
                 <Button onClick={() => handleRemove(record._id)} color="danger" variant="solid">
                     Remove
                 </Button>

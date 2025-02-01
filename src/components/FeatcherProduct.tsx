@@ -13,7 +13,7 @@ export type TableDataType = Pick<product, "_id" | "name" | "image" | "brand" | "
 
 const FeatcherProduct = () => {
     const user = useAppSelector((state) => state?.auth?.user)
-    const [params, setParams] = useState([])
+    const [params, _setParams] = useState([])
     const [search, setSearchTerm] = useState('')
     const [limit, _setLimit] = useState(6)
     const [page, setPage] = useState(1);
