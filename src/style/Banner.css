@@ -1,0 +1,32 @@
+.banner {
+  background: url(../assets/banner.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+@keyframes upDown {
+  0% {
+    transform: translateY(150px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-up-down {
+  animation: upDown 5s ease-in-out infinite;
+}
+
+.bg-custom {
+    background: #0B1221;
+}
