@@ -2,35 +2,39 @@ import { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout, userCurrentToken } from '../app/fetchers/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../app/hook';
-import { useLoginMutation } from '../app/fetchers/auth/authApi';
+import { useLogoutMutation } from '../app/fetchers/auth/authApi'; // Assuming logout mutation exists
 
-function ProtectedRouter({ children }: { children: ReactNode }) {
-    const token = useAppSelector(userCurrentToken);
-    const [logoutUser] = useLoginMutation();
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+interface ProtectedRouterProps {
+  children: ReactNode;
+}
 
-    useEffect(() => {
-        const handleLogout = async () => {
-            if (!token) {
-                try {
-                    await logoutUser({}).unwrap();
-                    dispatch(logout());
-                    navigate('/login');
-                } catch (error) {
-                    console.error("Failed to log out:", error);
-                }
-            }
-        };
+function ProtectedRouter({ children }: ProtectedRouterProps) {
+  const token = useAppSelector(userCurrentToken);
+  const [logoutUser] = useLogoutMutation(); // Use correct logout mutation
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-        handleLogout();
-    }, [token, logoutUser, dispatch, navigate]);
-
+  useEffect(() => {
     if (!token) {
-        return null; 
-    }
+      const handleLogout = async () => {
+        try {
+          await logoutUser().unwrap();
+          dispatch(logout());
+          navigate('/login');
+        } catch (error) {
+          console.error('Failed to log out:', error);
+        }
+      };
 
-    return <>{children}</>;
+      handleLogout();
+    }
+  }, [token, logoutUser, dispatch, navigate]);
+
+  if (!token) {
+    return null;
+  }
+
+  return <>{children}</>;
 }
 
 export default ProtectedRouter;
