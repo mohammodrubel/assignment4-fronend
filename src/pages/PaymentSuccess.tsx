@@ -12,7 +12,7 @@ export default function PaymentSuccess() {
   const location = useLocation(); // Get current URL path
 
   useEffect(() => {
-    if (location.pathname === "/success") {
+    if (location.pathname === "/payment-success") {
       dispatch(clearCart());
       startConfetti();
     }

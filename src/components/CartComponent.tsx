@@ -5,12 +5,14 @@ import { product } from "../types/globalTypes";
 import Container from "./ui/Container";
 import { ShippingFormData } from "../pages/CheckOut";
 import { useCreateOrderMutation } from "../app/fetchers/order/orderApi";
+import { useCreatePaymentMutation } from "../app/fetchers/payment/paymentApi";
 interface CartComponentProps {
     shippingData: ShippingFormData | null;
 }
 
 const CartComponent: React.FC<CartComponentProps> = ({ shippingData }) => {
     const [createOrder] = useCreateOrderMutation()
+    const [hitPayment] = useCreatePaymentMutation()
     const data = useAppSelector((state) => state.products.cartItem);
     const customar = useAppSelector((state) => state.auth.user);
     const dispatch = useAppDispatch();
@@ -107,8 +109,18 @@ const CartComponent: React.FC<CartComponentProps> = ({ shippingData }) => {
             total: totalPrice,
         };
         try{
-            const res =await createOrder(modifyData)
-            console.log(res)
+            const res =await createOrder(modifyData) //hitPayment
+            console.log(res?.data?.data?._id)
+            if(res?.data?.success){
+                const orderId = res?.data?.data?._id
+                try{
+                    const info = hitPayment(orderId)
+                    console.log(info)
+                    window.location.href=(await info)?.data?.data
+                }catch(error){
+                    console.log(error)
+                }
+            }   
         }catch(error){
             console.log(error)
         }

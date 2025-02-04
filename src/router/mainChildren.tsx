@@ -38,7 +38,7 @@ const mainChildren = [
     element: <AboutUs />,
   },
   {
-    path: "/success",
+    path: "/payment-success",
     element: <PaymentSuccess />,
   },
 
