@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hook';
 import '../../style/Card.css';
 import { product } from '../../types/globalTypes';
 import { addToCart } from '../../app/fetchers/product/productSlice';
+import { Link } from 'react-router-dom';
 
 function Card({ item }: { item: product }) {
     const [isHovered, setIsHovered] = useState(false);
@@ -26,9 +27,9 @@ function Card({ item }: { item: product }) {
         >
             <div className="px-6 py-4">
                 <div className="w-[280px] h-[250px] mx-auto">
-                    <img src={item?.image} alt="image" className="w-full h-full object-cover" />
+                   <Link to={`/${item._id}`}> <img src={item?.image} alt="image" className="w-full h-full object-cover" /></Link>
                 </div>
-                <div className="font-bold text-xl mb-2">{item.name}</div>
+                <Link to={`/${item._id}`}><div className="font-bold text-xl mb-2">{item.name}</div></Link>
                 <div className='flex justify-between items-center'>
                     <p className={item?.quantity === 0 ? "text-red-500 font-bold my-1" : "text-green-700 font-bold my-1"}>
                         {item?.quantity === 0 ? "Out of Stock" : `Stock: ${item?.quantity}`}

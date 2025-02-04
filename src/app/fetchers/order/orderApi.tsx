@@ -27,7 +27,12 @@ const authApi = baseApi.injectEndpoints({
                 };
             },
         }),
+        getSingleOrder: builder.query({
+            query: (id: string) => ({
+                url:`/orders/${id}`
+            }),
+          }),
     }),
 });
 
-export const { useCreateOrderMutation, useGetAllOrderQuery } = authApi;
+export const { useCreateOrderMutation, useGetAllOrderQuery,useGetSingleOrderQuery } = authApi;

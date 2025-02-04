@@ -65,7 +65,7 @@ function Shop() {
         setSelectedBrand(e.target.value);
     };
     const maxPrice = Math.max(...maindata.map(product => product.price));
-   
+
 
     const meta = data?.meta;
 
@@ -86,12 +86,12 @@ function Shop() {
                             <div>
                                 <p className="font-medium px-1 text-[#2cb1ec]">Price Range</p>
                                 <Slider
-                min={0}
-                max={maxPrice}  // Maximum value set dynamically from the data
-                defaultValue={0}
-                step={100}
-                tipFormatter={value => `₹${value}`}  // Format tooltip as currency
-            />
+                                    min={0}
+                                    max={maxPrice}  // Maximum value set dynamically from the data
+                                    defaultValue={0}
+                                    step={100}
+                                    tipFormatter={value => `₹${value}`}  // Format tooltip as currency
+                                />
                             </div>
                             <div className="my-5 p-5 border border-gray-100">
                                 <p className="font-medium text-[#2cb1ec]">Search your Product</p>

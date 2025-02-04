@@ -8,6 +8,7 @@ const { Title, Paragraph } = Typography
 const AboutUs: React.FC = () => {
   return (
     <Layout>
+      
       <Content style={{ padding: "50px" }}>
         <Title level={1}>About Bike Store</Title>
 

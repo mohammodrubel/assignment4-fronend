@@ -1,7 +1,7 @@
-import { Button, Input } from "antd";
+import { Button } from "antd";
 import { useParams } from "react-router-dom";
 import { useGetSingleProductQuery } from "../app/fetchers/product/productApi";
-import { addToCart, decrementQuantity } from "../app/fetchers/product/productSlice";
+import { addToCart } from "../app/fetchers/product/productSlice";
 import { useAppDispatch } from "../app/hook";
 
 // Define product type
@@ -24,9 +24,7 @@ const ProductDetails: React.FC = () => {
     // Safely extract product data
     const singleProduct: Product | undefined = data?.data;
 
-    const decrementHandler = (id: string) => {
-        dispatch(decrementQuantity(id));
-    };
+
 
     const addToCartHandler = (product: Product) => {
         dispatch(addToCart(product));
@@ -64,24 +62,6 @@ const ProductDetails: React.FC = () => {
 
                     {/* Add to Cart Section */}
                     <div className="flex space-x-4">
-                        <div className="flex gap-2">
-                            <Button
-                                type="primary"
-                                disabled={singleProduct.quantity === 0}
-                                onClick={() => addToCartHandler(singleProduct)}
-                            >
-                                <i className="fa-solid fa-plus"></i>
-                            </Button>
-
-                            <Input style={{ width: "80px" }}  disabled value={singleProduct.orderQuantity} />
-                            <Button
-                                type="primary"
-                                disabled={singleProduct.quantity === 0}
-                                onClick={() => decrementHandler(singleProduct._id)}
-                            >
-                                <i className="fa-solid fa-minus"></i>
-                            </Button>
-                        </div>
                         <Button
                             onClick={() => addToCartHandler(singleProduct)}
                             disabled={singleProduct.quantity === 0}

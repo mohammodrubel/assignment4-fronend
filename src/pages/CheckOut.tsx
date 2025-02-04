@@ -1,19 +1,30 @@
 import { Button, Form, Input } from "antd";
+import { useState } from "react";
 import Container from "../components/ui/Container";
+import CartComponent from "../components/CartComponent";
 
+// ✅ Rename to avoid conflict with built-in FormData
+export type ShippingFormData = {
+    fullName: string;
+    phone: string;
+    address: string;
+    address2: string;
+};
 
 function CheckOut() {
-    const onFinish = (values: any) => {
-        console.log("Form Values:", values);
+    const [formData, setFormData] = useState<ShippingFormData | null>(null);
+
+    const onFinish = (values: ShippingFormData) => {
+        setFormData(values);
     };
-   
+
     return (
         <>
             <div className="bg-gray-200 h-[40vh] flex justify-center items-center uppercase text-4xl md:text-6xl lg:text-8xl font-bold">Payment</div>
             <Container>
                 <div className="grid mt-5 grid-cols-1 md:grid-cols-2 mx-auto items-center">
                     <div className="shadow" style={{ padding: "20px" }}>
-                        <h2 className="text-2xl font-bold text-blue-950">Shiping Address</h2>
+                        <h2 className="text-2xl font-bold text-blue-950">Shipping Address</h2>
                         <div className="m-5">
                             <Form
                                 className="mt-5"
@@ -38,9 +49,7 @@ function CheckOut() {
                                 <Form.Item
                                     label="Phone"
                                     name="phone"
-                                    rules={[
-                                        { required: true, message: "Please input your phone number!" },
-                                    ]}
+                                    rules={[{ required: true, message: "Please input your phone number!" }]}
                                 >
                                     <Input size="large" />
                                 </Form.Item>
@@ -53,10 +62,7 @@ function CheckOut() {
                                     <Input size="large" />
                                 </Form.Item>
 
-                                <Form.Item
-                                    label="Address Line 2"
-                                    name="address2"
-                                >
+                                <Form.Item label="Address Line 2" name="address2">
                                     <Input size="large" />
                                 </Form.Item>
 
@@ -69,13 +75,12 @@ function CheckOut() {
                         </div>
                     </div>
                     <div>
-
+                        <CartComponent shippingData={formData} />
                     </div>
                 </div>
             </Container>
-
         </>
-    )
+    );
 }
 
-export default CheckOut
+export default CheckOut;

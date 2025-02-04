@@ -20,8 +20,7 @@ const Navigation = () => {
                     <div className="menu-items bg-[#0B1221]">
                         <li className="text-white"><Link className="atag text-white" to="/">Home</Link></li>
                         <li className="text-white"><Link className="atag text-white" to="/shop">Shop</Link></li>
-                        <li className="text-white"><Link className="atag text-white" to="/">About</Link></li>
-                        <li className="text-white"><Link className="atag text-white" to="/">Contact</Link></li>
+                        <li className="text-white"><Link className="atag text-white" to="/aboutus">About</Link></li>
                     </div>
                 </div>
             </div>
