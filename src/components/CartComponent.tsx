@@ -2,10 +2,10 @@ import { Button, Input, Table } from "antd";
 import { decrementQuantity, incrementQuantity, removeProduct } from "../app/fetchers/product/productSlice";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 import { product } from "../types/globalTypes";
-import { Link } from "react-router-dom";
+import Container from "./ui/Container";
 
 
-const Cart = () => {
+const CartComponent = () => {
     const data = useAppSelector((state) => state.products.cartItem)
     const dispatch = useAppDispatch()
     const handleRemove = (id: String) => {
@@ -66,14 +66,9 @@ const Cart = () => {
             key: "increment-decrement",
             dataIndex: 'orderQuantity',
             render: (text: number, record: product) => <div className="flex gap-2 items-center">
-                {record.quantity >= record.orderQuantity ? <i onClick={() => incrementHandler(record._id)} className="fa-solid fa-plus"></i>
-                : <i className="fa-solid fa-plus"></i>    
-            }
-                <Input style={{ width: '80px' }} min={1} disabled value={text} max={record.quantity} />
-               {
-                record.quantity >= record.orderQuantity ? <i onClick={() => decrementHandler(record._id)} className="fa-solid fa-minus"></i> :
+                <i onClick={() => incrementHandler(record._id)} className="fa-solid fa-plus"></i>
+                <Input style={{ width: '80px' }} disabled value={text} />
                 <i onClick={() => decrementHandler(record._id)} className="fa-solid fa-minus"></i>
-               }
             </div>
         },
         {
@@ -99,10 +94,8 @@ const Cart = () => {
 
 
     return (
-        <div>
-            <div className="bg-gray-200 h-[40vh] flex justify-center items-center uppercase text-4xl md:text-6xl lg:text-8xl font-bold">Cart</div>
-            <div className="container mx-auto">
-                <Table dataSource={data} scroll={{ x: screenX }} columns={columns} pagination={false} />
+        <Container >
+            <Table dataSource={data} className="mt-10" scroll={{ x: screenX }} columns={columns} pagination={false} />
                 <div className="flex flex-col items-end pt-10 border-t border-gray-100 my-5">
                     <p className="font-medium ">Total Quantity : {length}</p>
                     <p className="font-medium ">Delivery Charge :60 </p>
@@ -110,13 +103,10 @@ const Cart = () => {
                     <hr />
                     <p className="font-bold text-2xl  ">Grand Total : {totalPrice + 60} </p>
                     <br />
-                    <Button type="primary" disabled={!data.length} variant="solid">
-                        <Link to='/checkout'>CheckOut</Link>
-                    </Button>
+                    <Button color="danger" disabled={!data.length} variant="solid">CheckOut</Button>
                 </div>
-            </div>
-        </div>
+        </Container>
     );
 };
 
-export default Cart;
+export default CartComponent;

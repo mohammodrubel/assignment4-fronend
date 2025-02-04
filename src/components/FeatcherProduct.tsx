@@ -81,6 +81,10 @@ const FeatcherProduct = () => {
                 </div>
             </Container>
 
+
+            <div className='my-5 text-center'>
+                <Link to='/shop'><Button type='primary'>View All</Button></Link>
+                </div>
             <div className='flex justify-center py-10'>
                 <Pagination className='text-center mx-auto' onChange={(value) => setPage(value)} pageSize={total.limit} total={total.total} />
             </div>
