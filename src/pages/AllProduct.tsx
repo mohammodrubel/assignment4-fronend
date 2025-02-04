@@ -43,6 +43,7 @@ const AllProduct = () => {
       title: 'Image',
       dataIndex: 'image',
       key: 'image',
+      render:(img) => <img src={img} alt='image' style={{width:'100px', height:'100px', borderRadius:'50%'}}/>
     },
     {
       title: 'Brand',

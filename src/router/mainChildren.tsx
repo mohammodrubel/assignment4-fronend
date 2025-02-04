@@ -1,3 +1,4 @@
+import AboutUs from "../pages/AboutUs";
 import Cart from "../pages/Cart";
 import CheckOut from "../pages/CheckOut";
 import Home from "../pages/Home";
@@ -30,6 +31,10 @@ const mainChildren = [
   {
     path: "/wishlist",
     element: <WishList />,
+  },
+  {
+    path: "/aboutus",
+    element: <AboutUs />,
   },
 
 ];

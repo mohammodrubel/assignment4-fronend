@@ -3,6 +3,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PlusOutlined,
+  ShoppingCartOutlined,
   ShoppingOutlined,
   UnorderedListOutlined
 } from '@ant-design/icons';
@@ -53,6 +54,11 @@ const DashboardLayout = () => {
                   label: <Link to="/dashboard/all-product">All Products</Link>,
                 },
               ],
+            },
+            {
+              key: '2',
+              icon: <ShoppingCartOutlined />,
+              label: <Link to="/dashboard/order">Order</Link>,
             },
           ]}
         />

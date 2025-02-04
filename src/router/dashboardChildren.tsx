@@ -1,6 +1,7 @@
 import AllProduct from "../pages/AllProduct";
 import CreateProduct from "../pages/CreateProduct";
 import DashboardHome from "../pages/DashboardHome";
+import Order from "../pages/Order";
 
 const dashboardChildren = [
     {
@@ -14,6 +15,10 @@ const dashboardChildren = [
     {
       path: "/dashboard/create-product",
       element: <CreateProduct />,
+    },
+    {
+      path: "/dashboard/order",
+      element: <Order />,
     },
     
   ];
