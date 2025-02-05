@@ -69,7 +69,7 @@ function MyOrder() {
   ];
   return (
     <>
-      <Table columns={columns} dataSource={mainData} rowKey="_id" />
+      <Table scroll={{ x: "max-content" }} columns={columns} dataSource={mainData} rowKey="_id" />
     </>
   )
 }

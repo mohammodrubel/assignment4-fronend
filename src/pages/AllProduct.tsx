@@ -106,6 +106,7 @@ const AllProduct = () => {
         pagination={false}
         loading={isLoading}
         onChange={onChange}
+        scroll={{ x: "max-content" }}
       />
       <div className='mt-5'>
       <Pagination onChange={(value) => setPage(value)} pageSize={total.limit} total={total.total} />

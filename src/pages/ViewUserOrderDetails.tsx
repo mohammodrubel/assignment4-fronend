@@ -47,21 +47,11 @@ function ViewUserOrderDetails() {
       key: "price",
       render: (price: number) => `৳${price.toLocaleString()}`,
     },
-    {
-      title: "Stock",
-      dataIndex: "inStock",
-      key: "inStock",
-      render: (inStock: boolean) => (inStock ? "In Stock" : "Out of Stock"),
-    },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-    },
+    
   ];
 
     return (
-        <Table dataSource={maindata} columns={columns} rowKey="_id" />
+        <Table scroll={{ x: "max-content" }} dataSource={maindata} columns={columns} rowKey="_id" />
     )
 }
 

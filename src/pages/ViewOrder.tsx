@@ -60,7 +60,7 @@ function ViewOrder() {
     const mainProduct = data?.data?.products
 
     return (
-        <Table columns={columns} dataSource={mainProduct} loading={isLoading} rowKey="_id" />
+        <Table scroll={{ x: "max-content" }} columns={columns} dataSource={mainProduct} loading={isLoading} rowKey="_id" />
     )
 }
 
