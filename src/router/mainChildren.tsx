@@ -1,6 +1,8 @@
 import AboutUs from "../pages/AboutUs";
 import Cart from "../pages/Cart";
 import Home from "../pages/Home";
+import PaymentCancelled from "../pages/PaymentCancal";
+import PaymentFailed from "../pages/PaymentFaild";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import Shop from "../pages/Shop";
 import WishList from "../pages/WishList";
@@ -31,6 +33,14 @@ const mainChildren = [
   {
     path: "/payment-success",
     element: <PaymentSuccess />,
+  },
+  {
+    path: "/payment-fail",
+    element: <PaymentFailed />,
+  },
+  {
+    path: "/payment-payment-cancel",
+    element: <PaymentCancelled />,
   },
 
 ];

@@ -43,6 +43,13 @@ const OrderTable = () => {
             ),
         },
         {
+            title: "Payment Status",
+            dataIndex: "payment_status",
+            key: "payment_status",
+        },
+
+
+        {
             title: "Transaction ID",
             dataIndex: "transaction_id",
             key: "transactionId",
@@ -68,6 +75,7 @@ const OrderTable = () => {
 
     return (
         <Table
+        scroll={{ x: "max-content" }}
             columns={columns}
             dataSource={data?.data}
             rowKey="_id"

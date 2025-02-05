@@ -51,12 +51,6 @@ const Register = () => {
                         onFinish={handleSubmit}
                         autoComplete="off"
                         className="space-y-4"
-                        initialValues={{
-                            name: 'rubel',
-                            email: 'rubel@gmail.com',
-                            password: 'rubel@gmail.com',
-                            confirmPassword: 'rubel@gmail.com',
-                          }}
                     >
                         <Form.Item
                             label="Name"
