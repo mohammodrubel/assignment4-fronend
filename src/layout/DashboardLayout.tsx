@@ -60,6 +60,17 @@ const DashboardLayout = () => {
               icon: <ShoppingCartOutlined />,
               label: <Link to="/dashboard/order">Order</Link>,
             },
+            {
+              key: '3',
+              icon: <UnorderedListOutlined />,
+              label: <Link to="/dashboard/personal-profile">Profile</Link>,
+            },
+            {
+              key: '3',
+              icon: <UnorderedListOutlined />,
+              label: <Link to="/dashboard/change-password">Change Password</Link>,
+            },
+
           ]}
         />
       </Sider>
