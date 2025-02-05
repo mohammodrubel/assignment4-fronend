@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Form, Input } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useLoginMutation } from "../app/fetchers/auth/authApi";
 import { setUsers } from "../app/fetchers/auth/authSlice";
-import { useAppDispatch } from "../app/hook";
+import { useAppDispatch, useAppSelector } from "../app/hook";
 import '../style/Register.css';
 import jwtDecoded from "../utils/decodedToken";
 
@@ -15,10 +15,17 @@ interface LoginFormType {
 }
 
 const Login = () => {
+    const token = useAppSelector((state) => state?.auth?.token)
     const [loginData] = useLoginMutation();
     const navigate = useNavigate();
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (token) {
+            navigate('/')
+        }
+    }, [])
 
     const handleSubmit = async (values: LoginFormType) => {
         setLoading(true);
@@ -26,9 +33,9 @@ const Login = () => {
             const res = await loginData(values).unwrap();
             if (res.success) {
                 toast.success(res.message);
-                const token:string = res?.data 
+                const token: string = res?.data
                 const user = jwtDecoded(res.data)
-                dispatch(setUsers({user,token}))
+                dispatch(setUsers({ user, token }))
                 navigate('/');
             }
         } catch (error: any) {

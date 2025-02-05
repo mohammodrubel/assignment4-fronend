@@ -3,6 +3,7 @@ import CheckOut from "../pages/CheckOut";
 import MyOrder from "../pages/MyOrder";
 import PersonalProfile from "../pages/PersonalProfile";
 import ProductDetails from "../pages/ProductDetails";
+import ViewUserOrderDetails from "../pages/ViewUserOrderDetails";
 
 const userChildren = [
     {
@@ -25,5 +26,10 @@ const userChildren = [
         path: "/user/change-password",
         element: <ChangePassword />,
     },
+    {
+        path: "/user/my-order/:id",
+        element: <ViewUserOrderDetails />,
+    },
+    
 ];
 export default userChildren

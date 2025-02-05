@@ -31,7 +31,8 @@ const authApi = baseApi.injectEndpoints({
             query: (id: string) => ({
                 url:`/orders/${id}`
             }),
-          }),
+        }),
+      
     }),
 });
 

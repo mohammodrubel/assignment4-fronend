@@ -32,7 +32,7 @@ export default function PaymentSuccess() {
     <div className="h-screen text-center flex justify-center items-center flex-col">
       <h1 className="text-4xl text-green-500">Congratulations!</h1>
       <h1 className="text-2xl font-bold">Your product has been purchased successfully!</h1>
-      <Link to='/dashbord'><Button type="primary">My Order</Button></Link>
+      <Link to='/user/my-order'><Button type="primary">My Order</Button></Link>
     </div>
   );
 }
