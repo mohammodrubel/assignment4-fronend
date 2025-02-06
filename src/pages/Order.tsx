@@ -1,9 +1,9 @@
 
-import { Select, Table, Tag } from 'antd';
+import { Select, Table } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useGetAllOrderQuery, useUpdateSingleOrderMutation } from '../app/fetchers/order/orderApi';
 import { toast } from 'sonner';
+import { useGetAllOrderQuery, useUpdateSingleOrderMutation } from '../app/fetchers/order/orderApi';
 
 
 
@@ -23,14 +23,14 @@ const OrderTable = () => {
     const handleStatusChange = async (value: string, orderId: string) => {
         setLoadingId(orderId);
         try {
-            const information:any  = {
-                mainData:{status:value},
-                orderId:orderId
+            const information: any = {
+                mainData: { status: value },
+                orderId: orderId
             }
             const res = await updateData(information).unwrap()
-                if(res?.success){
-                    toast.success(res?.message)
-                }
+            if (res?.success) {
+                toast.success(res?.message)
+            }
         } catch (error) {
 
         }
@@ -72,12 +72,12 @@ const OrderTable = () => {
             key: "status",
             render: (status: string, record: { _id: string }) => (
                 <Select
-                        value={status}
-                        options={statusOptions}
-                        onChange={(value) => handleStatusChange(value, record._id)}
-                        style={{ width: 150 }}
-                        loading={loadingId === record._id}
-                    />
+                    value={status}
+                    options={statusOptions}
+                    onChange={(value) => handleStatusChange(value, record._id)}
+                    style={{ width: 150 }}
+                    loading={loadingId === record._id}
+                />
             ),
         },
 
