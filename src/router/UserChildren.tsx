@@ -1,18 +1,14 @@
+import Cart from "../pages/Cart";
 import ChangePassword from "../pages/ChangePassword";
 import CheckOut from "../pages/CheckOut";
 import MyOrder from "../pages/MyOrder";
 import PersonalProfile from "../pages/PersonalProfile";
-import ProductDetails from "../pages/ProductDetails";
 import ViewUserOrderDetails from "../pages/ViewUserOrderDetails";
 
 const userChildren = [
     {
         path: "/checkout",
         element: <CheckOut />,
-    },
-    {
-        path: "/:id",
-        element: <ProductDetails />,
     },
     {
         path: "/user/my-order",
@@ -30,6 +26,11 @@ const userChildren = [
         path: "/user/my-order/:id",
         element: <ViewUserOrderDetails />,
     },
-    
+    {
+        path: "/cart",
+        element: <Cart />,
+    },
+
+
 ];
 export default userChildren
