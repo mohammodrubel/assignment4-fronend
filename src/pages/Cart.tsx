@@ -2,19 +2,38 @@ import { Button, Input, Table } from "antd";
 import { decrementQuantity, incrementQuantity, removeProduct } from "../app/fetchers/product/productSlice";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 import { product } from "../types/globalTypes";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 
 const Cart = () => {
+    const token = useAppSelector((state)=> state?.auth?.token)
     const data = useAppSelector((state) => state.products.cartItem)
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const handleRemove = (id: String) => {
         dispatch(removeProduct(id))
     }
+    useEffect(() => {
+        (async () => {
+          if (!token) {
+            navigate("/");
+          }
+        })();
+      }, [token, navigate]); 
     const incrementHandler = (id: String) => {
+        if(!token){
+            toast.warning('Please log in to add items to your cart.')
+            return
+        }
         dispatch(incrementQuantity(id))
     }
     const decrementHandler = (id: String) => {
+        if(!token){
+            toast.warning('Please log in to add items to your cart.')
+            return
+        }
         dispatch(decrementQuantity(id))
     }
     const columns = [

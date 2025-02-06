@@ -46,7 +46,20 @@ const authApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    updateProduct: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/products/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
-export const { useCreateProductMutation, useGetAllProductQuery, useCategoryBrandQuery, useGetSingleProductQuery } = authApi;
+export const { useCreateProductMutation,useUpdateProductMutation,useDeleteProductMutation ,useGetAllProductQuery, useCategoryBrandQuery, useGetSingleProductQuery } = authApi;

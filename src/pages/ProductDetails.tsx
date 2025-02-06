@@ -1,21 +1,22 @@
 "use client"
 
-import type React from "react"
+import {
+  CarOutlined,
+  HeartOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  SafetyCertificateOutlined,
+  ShoppingCartOutlined,
+  SyncOutlined,
+} from "@ant-design/icons"
+import { Button, Image, Rate, Spin } from "antd"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
-import { Button, Image, Rate, Collapse, Spin } from "antd"
-import {
-  ShoppingCartOutlined,
-  HeartOutlined,
-  CarOutlined,
-  SyncOutlined,
-  SafetyCertificateOutlined,
-  PhoneOutlined,
-  MailOutlined,
-} from "@ant-design/icons"
 import { useGetSingleProductQuery } from "../app/fetchers/product/productApi"
 import { addToCart } from "../app/fetchers/product/productSlice"
-import { useAppDispatch } from "../app/hook"
+import { useAppDispatch, useAppSelector } from "../app/hook"
+import { userCurrentInformation } from "../app/fetchers/auth/authSlice"
+import { toast } from "sonner"
 
 // Define product type
 interface Product {
@@ -35,9 +36,8 @@ interface Product {
   specifications: { [key: string]: string }
 }
 
-const { Panel } = Collapse
-
-const ProductDetails: React.FC = () => {
+const ProductDetails = () => {
+  const user = useAppSelector(userCurrentInformation)
   const { id } = useParams<{ id: string }>()
   const { data, isLoading } = useGetSingleProductQuery(id)
   const dispatch = useAppDispatch()
@@ -51,6 +51,10 @@ const ProductDetails: React.FC = () => {
   const singleProduct: Product | undefined = data?.data
 
   const addToCartHandler = (product: Product) => {
+    if(!user){
+      toast.warning('Please log in to add items to your cart.')
+      return 
+    }
     dispatch(addToCart(product))
   }
 
@@ -115,7 +119,9 @@ const ProductDetails: React.FC = () => {
               Add to Wishlist
             </Button>
           </div>
-
+                <div>
+                  {singleProduct?.description}
+                </div>
           {/* Benefits */}
           <div className="grid grid-cols-3 gap-4 py-8">
             {[
@@ -129,33 +135,6 @@ const ProductDetails: React.FC = () => {
               </div>
             ))}
           </div>
-
-          {/* Product Description */}
-          <Collapse defaultActiveKey={["1"]}>
-            <Panel header="Product Description" key="1">
-              <p>{singleProduct.description}</p>
-            </Panel>
-            <Panel header="Key Features" key="2">
-              <ul className="list-disc pl-5 space-y-2">
-                {singleProduct.features?.length ? (
-                  singleProduct.features.map((feature, index) => (
-                    <li key={index}>{feature}</li>
-                  ))
-                ) : (
-                  <li>No features available</li>
-                )}
-              </ul>
-            </Panel>
-            <Panel header="Specifications" key="3">
-              <div className="grid grid-cols-2 gap-4">
-                {Object.entries(singleProduct.specifications || {}).map(([key, value]) => (
-                  <div key={key}>
-                    <span className="font-semibold">{key}:</span> {value}
-                  </div>
-                ))}
-              </div>
-            </Panel>
-          </Collapse>
 
           {/* Customer Support */}
           <div className="bg-gray-100 p-4 rounded-lg">
@@ -178,3 +157,7 @@ const ProductDetails: React.FC = () => {
 }
 
 export default ProductDetails
+
+
+
+

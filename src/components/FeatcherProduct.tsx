@@ -68,7 +68,7 @@ const FeatcherProduct = () => {
                             >
                                 <Link to={`/${item?._id}`}><Meta
                                     title={item?.name}
-                                    description={item?.description}
+                                    description={item?.description.slice(0,100) || "No description available"}
                                 /></Link>
                                 <b>Stock:{item?.quantity === 0 ? <span className='text-red-500'>out of stock</span> : <span className='text-green-500 mx-2'>{item?.quantity}</span>}</b>
                                 <div className='flex my-5 justify-between item-center'>

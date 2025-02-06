@@ -42,11 +42,6 @@ const UserLayout = () => {
                             label: <Link to="/user/my-order">My Order</Link>,
                         },
                         {
-                            key: '2-2',
-                            icon: <UnorderedListOutlined />,
-                            label: <Link to="/user/personal-profile">Profile</Link>,
-                        },
-                        {
                             key: '2-3',
                             icon: <UnorderedListOutlined />,
                             label: <Link to="/user/change-password">Change Password</Link>,

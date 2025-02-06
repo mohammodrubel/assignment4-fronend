@@ -1,4 +1,5 @@
 import AboutUs from "../pages/AboutUs";
+import Cart from "../pages/Cart";
 import Home from "../pages/Home";
 import PaymentCancelled from "../pages/PaymentCancal";
 import PaymentFailed from "../pages/PaymentFaild";
@@ -29,6 +30,10 @@ const mainChildren = [
     path: "/aboutus",
     element: <AboutUs />,
   },
+  {
+    path: "/cart",
+    element: <Cart />,
+},
   {
     path: "/payment-success",
     element: <PaymentSuccess />,

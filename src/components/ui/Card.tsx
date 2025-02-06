@@ -46,7 +46,7 @@ function Card({ item }: { item: product }) {
             >
                 <div>
                     <p className="text-gray-700 text-base">
-                        {item?.description}
+                    {item?.description?.slice(0, 200) || "No description available"}
                     </p>
                 </div>
             </div>
