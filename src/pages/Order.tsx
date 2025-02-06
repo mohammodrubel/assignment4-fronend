@@ -1,9 +1,9 @@
 
-import { Select, Table } from 'antd';
+import { Button, Select, Table } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { useGetAllOrderQuery, useUpdateSingleOrderMutation } from '../app/fetchers/order/orderApi';
+import { useDeleteOrderMutation, useGetAllOrderQuery, useUpdateSingleOrderMutation } from '../app/fetchers/order/orderApi';
 
 
 
@@ -19,6 +19,7 @@ const statusOptions = [
 const OrderTable = () => {
     const { isLoading, data } = useGetAllOrderQuery(undefined)
     const [loadingId, setLoadingId] = useState<string | null>(null);
+    const [deleteOrder] = useDeleteOrderMutation()
     const [updateData] = useUpdateSingleOrderMutation()
     const handleStatusChange = async (value: string, orderId: string) => {
         setLoadingId(orderId);
@@ -37,6 +38,17 @@ const OrderTable = () => {
         setLoadingId(null);
     };
 
+    const handleDelete = async(id:string)=>{
+        try{
+            const res = await deleteOrder(id).unwrap()
+            if(res?.success){
+                toast.success(res?.message)
+            }
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
 
     const columns = [
 
@@ -81,6 +93,7 @@ const OrderTable = () => {
             ),
         },
 
+
         {
             title: "Transaction ID",
             dataIndex: "transaction_id",
@@ -101,6 +114,10 @@ const OrderTable = () => {
             dataIndex: "_id",
             key: "_id",
             render: (link: string) => <Link to={`/dashboard/order/${link}`}>View Order</Link>
+        },
+        {
+            title: "Delete Order",
+            render:(data:any)=> <Button onClick={()=>handleDelete(data?._id)}>Delete Order</Button>
         },
     ];
 

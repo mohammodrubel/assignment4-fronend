@@ -44,6 +44,13 @@ const authApi = baseApi.injectEndpoints({
             }),
             invalidatesTags:['Orders']
         }),
+        deleteOrder: builder.mutation({
+            query: (id) => ({
+                url: `/orders/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags:['Orders']
+        }),
     }),
 });
 
@@ -51,5 +58,6 @@ export const {
     useCreateOrderMutation, 
     useGetAllOrderQuery, 
     useGetSingleOrderQuery, 
-    useUpdateSingleOrderMutation 
+    useUpdateSingleOrderMutation ,
+    useDeleteOrderMutation
 } = authApi;
