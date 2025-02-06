@@ -1,14 +1,41 @@
 
-import {  Table, Tag } from 'antd';
+import { Select, Table, Tag } from 'antd';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useGetAllOrderQuery } from '../app/fetchers/order/orderApi';
+import { useGetAllOrderQuery, useUpdateSingleOrderMutation } from '../app/fetchers/order/orderApi';
+import { toast } from 'sonner';
 
 
 
+const statusOptions = [
+    { value: "PENDING", label: "PENDING" },
+    { value: "PROCESSING", label: "PROCESSING" },
+    { value: "SHIPPED", label: "SHIPPED" },
+    { value: "DELIVERED", label: "DELIVERED" },
+    { value: "CANCELLED", label: "CANCELLED" },
+];
 
 
 const OrderTable = () => {
     const { isLoading, data } = useGetAllOrderQuery(undefined)
+    const [loadingId, setLoadingId] = useState<string | null>(null);
+    const [updateData] = useUpdateSingleOrderMutation()
+    const handleStatusChange = async (value: string, orderId: string) => {
+        setLoadingId(orderId);
+        try {
+            const information:any  = {
+                mainData:{status:value},
+                orderId:orderId
+            }
+            const res = await updateData(information).unwrap()
+                if(res?.success){
+                    toast.success(res?.message)
+                }
+        } catch (error) {
+
+        }
+        setLoadingId(null);
+    };
 
 
     const columns = [
@@ -35,19 +62,24 @@ const OrderTable = () => {
             key: "paymentMethod",
         },
         {
-            title: "Status",
-            dataIndex: "status",
-            key: "status",
-            render: (status: string) => (
-                <Tag color={status === "PENDING" ? "orange" : "green"}>{status}</Tag>
-            ),
-        },
-        {
             title: "Payment Status",
             dataIndex: "payment_status",
             key: "payment_status",
         },
-
+        {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            render: (status: string, record: { _id: string }) => (
+                <Select
+                        value={status}
+                        options={statusOptions}
+                        onChange={(value) => handleStatusChange(value, record._id)}
+                        style={{ width: 150 }}
+                        loading={loadingId === record._id}
+                    />
+            ),
+        },
 
         {
             title: "Transaction ID",
@@ -75,7 +107,7 @@ const OrderTable = () => {
 
     return (
         <Table
-        scroll={{ x: "max-content" }}
+            scroll={{ x: "max-content" }}
             columns={columns}
             dataSource={data?.data}
             rowKey="_id"

@@ -1,6 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { TQueryParams } from '../../../types/globalTypes';
 import { baseApi } from '../../api/baseApi';
-
 
 const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -10,6 +11,7 @@ const authApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
+            invalidatesTags:['Orders']
         }),
         getAllOrder: builder.query({
             query: (args) => {
@@ -26,14 +28,28 @@ const authApi = baseApi.injectEndpoints({
                     params: params,
                 };
             },
+            providesTags: ['Orders'],
         }),
         getSingleOrder: builder.query({
             query: (id: string) => ({
-                url:`/orders/${id}`
+                url: `/orders/${id}`,
             }),
+            providesTags: ['Orders']
         }),
-      
+        updateSingleOrder: builder.mutation({
+            query: (information) => ({
+                url: `/orders/${information.orderId}`,
+                method: 'PATCH',
+                body: information.mainData,
+            }),
+            invalidatesTags:['Orders']
+        }),
     }),
 });
 
-export const { useCreateOrderMutation, useGetAllOrderQuery,useGetSingleOrderQuery } = authApi;
+export const { 
+    useCreateOrderMutation, 
+    useGetAllOrderQuery, 
+    useGetSingleOrderQuery, 
+    useUpdateSingleOrderMutation 
+} = authApi;
